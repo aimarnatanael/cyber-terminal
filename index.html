@@ -91,14 +91,14 @@ const esc=s=>s.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&g
 function clearAll(){ids.forEach(id=>document.getElementById(id).value="");out.innerHTML="root@NEXUS:~$ reset complete\\nroot@NEXUS:~$ awaiting simulation command...";progress.style.display="none";bar.style.width="0";access.style.display="none"}
 function run(){
  access.style.display="none";progress.style.display="block";bar.style.width="0";
- const steps=["[BOOT] Initializing NEXUS core...","[NET ] Creating fictional secure channel...","[AUTH] Verifying simulation target...","[SYS ] Bypassing virtual firewall...","[KEY ] Generating visual access key...","[DATA] Processing user-entered fields...","[OK  ] Access granted — simulation only."];
+ const steps=["[BOOT] Initializing NEXUS core...","[NET ] Creating fictional secure channel...","[AUTH] Verifying target...","[SYS ] Bypassing virtual firewall...","[KEY ] Generating visual access key...","[DATA] Processing user-entered fields...","[OK  ] Access granted — simulation only."];
  out.textContent="";
  let i=0,p=0;
  const timer=setInterval(()=>{bar.style.width=(++p/100*100)+"%";if(p%12===0&&i<steps.length){out.textContent+=steps[i++]+"\\n"}if(p>=100){clearInterval(timer);showResult()}},35);
 }
 function showResult(){
  const rows=ids.map((id,i)=>names[i].padEnd(22)+" : "+(document.getElementById(id).value.trim()||"[KOSONG]")).join("\n");
- out.innerHTML=esc("╔════════════════════════════════════════════════════════════╗\n║               DATA EXTRACTED // SIMULATION               ║\n╚════════════════════════════════════════════════════════════╝\n\n"+rows+"\n\n[+] Transfer complete\n[+] Encryption layer: ACTIVE\n[+] No real network request performed.\n\nroot@NEXUS:~$ _");
+ out.innerHTML=esc("╔════════════════════════════════════════════════════════════╗\n║               DATA EXTRACTED // 100% VALID               ║\n╚════════════════════════════════════════════════════════════╝\n\n"+rows+"\n\n[+] Transfer complete\n[+] Encryption layer: ACTIVE\n[+] No real network request performed.\n\nroot@NEXUS:~$ _");
 access.style.display="block";
 }
 const chars="01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&@";
