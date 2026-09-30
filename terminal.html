@@ -1,1 +1,554 @@
+<!DOCTYPE html>
+<html lang="id">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>CYBER TERMINAL // ACCESS</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+
+  margin: 0;
+
+  padding: 18px;
+
+  min-height: 100vh;
+
+  background: #010302;
+
+  color: #20ff72;
+
+  font-family:
+    Consolas,
+    "Courier New",
+    monospace;
+
+}
+
+body::before {
+
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(32,255,114,.035)
+      0px,
+      rgba(32,255,114,.035)
+      1px,
+      transparent
+      1px,
+      transparent
+      4px
+    );
+
+}
+
+.terminal {
+
+  width: min(1100px, 96vw);
+
+  height: calc(100vh - 36px);
+
+  margin: auto;
+
+  border: 1px solid #20ff72;
+
+  background:
+    rgba(1,3,2,.96);
+
+  box-shadow:
+    0 0 30px rgba(32,255,114,.25),
+    inset 0 0 30px rgba(32,255,114,.04);
+
+  display: flex;
+
+  flex-direction: column;
+
+}
+
+.header {
+
+  padding: 18px;
+
+  text-align: center;
+
+  border-bottom:
+    1px solid #167a3d;
+
+}
+
+.skull {
+
+  font-size: 60px;
+
+  text-shadow:
+    0 0 20px #20ff72;
+
+}
+
+.title {
+
+  margin: 4px 0;
+
+  font-size:
+    clamp(26px, 5vw, 50px);
+
+  text-shadow:
+    0 0 15px #20ff72;
+
+}
+
+.status {
+
+  color: #9affb9;
+
+}
+
+.screen {
+
+  flex: 1;
+
+  overflow-y: auto;
+
+  padding: 20px;
+
+  line-height: 1.6;
+
+  white-space: pre-wrap;
+
+}
+
+.line {
+
+  margin: 3px 0;
+
+}
+
+.green {
+
+  color: #20ff72;
+
+}
+
+.red {
+
+  color: #ff5555;
+
+}
+
+.gray {
+
+  color: #70a982;
+
+}
+
+.input-area {
+
+  display: flex;
+
+  align-items: center;
+
+  padding: 15px;
+
+  border-top:
+    1px solid #167a3d;
+
+}
+
+.prompt {
+
+  margin-right: 8px;
+
+  white-space: nowrap;
+
+}
+
+#command {
+
+  flex: 1;
+
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  color: #20ff72;
+
+  font-family: inherit;
+
+  font-size: 16px;
+
+}
+
+.enter {
+
+  margin-left: 10px;
+
+  padding: 10px 16px;
+
+  border: none;
+
+  background: #20ff72;
+
+  color: #001b09;
+
+  font-family: inherit;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+}
+
+.enter:hover {
+
+  box-shadow:
+    0 0 18px #20ff72;
+
+}
+
+@media(max-width:600px) {
+
+  body {
+    padding: 8px;
+  }
+
+  .terminal {
+    height: calc(100vh - 16px);
+  }
+
+  .input-area {
+    padding: 10px;
+  }
+
+  .enter {
+    display: none;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="terminal">
+
+  <div class="header">
+
+    <div class="skull">
+      ☠
+    </div>
+
+    <div class="title">
+      CYBER TERMINAL
+    </div>
+
+    <div class="status">
+      SECURE ACCESS // ONLINE
+    </div>
+
+  </div>
+
+
+  <div
+    class="screen"
+    id="screen"
+  >
+
+    <div class="line green">
+      NEXUS OS v1.0
+    </div>
+
+    <div class="line gray">
+      Simulation terminal initialized.
+    </div>
+
+    <div class="line gray">
+      Ketik "help" untuk melihat command.
+    </div>
+
+    <br>
+
+  </div>
+
+
+  <form
+    class="input-area"
+    onsubmit="executeCommand(event)"
+  >
+
+    <span class="prompt">
+      root@cyber:~$
+    </span>
+
+    <input
+      id="command"
+      type="text"
+      autocomplete="off"
+      autofocus
+      placeholder="ketik command..."
+    >
+
+    <button class="enter">
+      ENTER
+    </button>
+
+  </form>
+
+</div>
+
+
+<script>
+
+const screen =
+  document.getElementById("screen");
+
+const command =
+  document.getElementById("command");
+
+
+function printLine(
+  text,
+  className = "line"
+) {
+
+  const line =
+    document.createElement("div");
+
+  line.className = className;
+
+  line.textContent = text;
+
+  screen.appendChild(line);
+
+  screen.scrollTop =
+    screen.scrollHeight;
+
+}
+
+
+function executeCommand(event) {
+
+  event.preventDefault();
+
+  const raw =
+    command.value.trim();
+
+  if (!raw) return;
+
+  printLine(
+    "root@cyber:~$ " + raw
+  );
+
+  const cmd =
+    raw.toLowerCase();
+
+
+  // HELP
+
+  if (cmd === "help") {
+
+    printLine(
+`AVAILABLE COMMANDS
+
+help      - daftar command
+clear     - membersihkan terminal
+status    - melihat status sistem
+about     - informasi terminal
+whoami    - melihat user
+date      - tanggal dan waktu
+system    - informasi sistem
+scan      - simulasi scan
+matrix    - efek simulasi
+links     - menu link`,
+      "line green"
+    );
+
+  }
+
+
+  // CLEAR
+
+  else if (cmd === "clear") {
+
+    screen.innerHTML = "";
+
+  }
+
+
+  // STATUS
+
+  else if (cmd === "status") {
+
+    printLine(
+`SYSTEM      : ONLINE
+SECURITY    : ACTIVE
+NETWORK     : SECURE
+FIREWALL    : ACTIVE
+MODE        : SIMULATION
+CONNECTION  : STABLE`,
+      "line green"
+    );
+
+  }
+
+
+  // ABOUT
+
+  else if (cmd === "about") {
+
+    printLine(
+`CYBER TERMINAL
+
+NEXUS OS v1.0
+
+Terminal cyber fiktif untuk
+demo dan tampilan website.
+
+Tidak melakukan akses ke sistem
+atau jaringan nyata.`,
+      "line green"
+    );
+
+  }
+
+
+  // WHOAMI
+
+  else if (cmd === "whoami") {
+
+    printLine(
+      "root (local simulation)",
+      "line green"
+    );
+
+  }
+
+
+  // DATE
+
+  else if (cmd === "date") {
+
+    printLine(
+      new Date().toLocaleString("id-ID"),
+      "line green"
+    );
+
+  }
+
+
+  // SYSTEM
+
+  else if (cmd === "system") {
+
+    printLine(
+`OS          : NEXUS OS
+VERSION     : 1.0
+KERNEL      : 6.6-CYBER
+CPU         : VIRTUAL
+MEMORY      : 8 GB
+STATUS      : ONLINE`,
+      "line green"
+    );
+
+  }
+
+
+  // SCAN
+
+  else if (cmd === "scan") {
+
+    printLine(
+      "Starting simulated scan...",
+      "line green"
+    );
+
+    setTimeout(() => {
+
+      printLine(
+`[OK] Initializing...
+[OK] Checking local simulation...
+[OK] Demo scan complete.
+[INFO] No real network activity performed.`,
+        "line green"
+      );
+
+    }, 800);
+
+  }
+
+
+  // MATRIX
+
+  else if (cmd === "matrix") {
+
+    printLine(
+`01001001 01001110
+10101010 11001010
+01100110 00110011
+SYSTEM VISUAL EFFECT ACTIVE`,
+      "line green"
+    );
+
+  }
+
+
+  // LINKS
+
+  else if (cmd === "links") {
+
+    printLine(
+`HOME
+https://aimarnatanael.github.io/cyber-terminal/
+
+GITHUB
+https://github.com/aimarnatanael/cyber-terminal`,
+      "line green"
+    );
+
+  }
+
+
+  // UNKNOWN
+
+  else {
+
+    printLine(
+      'Command tidak dikenal. Ketik "help".',
+      "line red"
+    );
+
+  }
+
+
+  command.value = "";
+
+}
+
+</script>
+
+</body>
+
+</html>
