@@ -1,281 +1,111 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CYBER TERMINAL</title>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEXUS // CYBER DATA SIMULATION</title>
 <style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: #020604;
-  color: #20ff72;
-  font-family: Consolas, "Courier New", monospace;
-  overflow: hidden;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(32,255,114,.035) 0px,
-    rgba(32,255,114,.035) 1px,
-    transparent 1px,
-    transparent 4px
-  );
-  z-index: 10;
-}
-
-.matrix {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  opacity: .12;
-  z-index: -1;
-}
-
-.matrix span {
-  position: absolute;
-  top: -200px;
-  white-space: pre;
-  font-size: 14px;
-  animation: fall linear infinite;
-}
-
-@keyframes fall {
-  to {
-    transform: translateY(130vh);
-  }
-}
-
-.container {
-  width: min(950px, 94vw);
-  margin: 5vh auto;
-  padding: 25px;
-  border: 1px solid #20ff72;
-  background: rgba(1,4,2,.92);
-  box-shadow:
-    0 0 20px rgba(32,255,114,.25),
-    inset 0 0 20px rgba(32,255,114,.05);
-}
-
-.skull {
-  text-align: center;
-  font-size: 70px;
-  text-shadow: 0 0 20px #20ff72;
-}
-
-h1 {
-  margin: 0;
-  text-align: center;
-  font-size: clamp(28px, 6vw, 60px);
-  text-shadow: 0 0 15px #20ff72;
-}
-
-.subtitle {
-  text-align: center;
-  margin: 10px 0 25px;
-  color: #9affb9;
-}
-
-.panel {
-  border: 1px solid #167a3d;
-  padding: 20px;
-  background: rgba(2,7,4,.9);
-}
-
-label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-}
-
-input {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #20ff72;
-  outline: none;
-  background: #000;
-  color: #20ff72;
-  font-family: inherit;
-  font-size: 16px;
-}
-
-input:focus {
-  box-shadow: 0 0 15px rgba(32,255,114,.5);
-}
-
-button {
-  margin-top: 12px;
-  padding: 12px 20px;
-  border: none;
-  background: #20ff72;
-  color: #001b09;
-  font-family: inherit;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-button:hover {
-  box-shadow: 0 0 20px #20ff72;
-}
-
-.cyberlink {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 13px 18px;
-  border: 1px solid #20ff72;
-  color: #20ff72;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.cyberlink:hover {
-  background: #20ff72;
-  color: #001b09;
-  box-shadow: 0 0 20px #20ff72;
-}
-
-.hint {
-  margin-top: 12px;
-  color: #74b88c;
-  font-size: 13px;
-}
-
-.console {
-  margin-top: 20px;
-  padding: 18px;
-  min-height: 130px;
-  border: 1px solid #167a3d;
-  color: #20ff72;
-  white-space: pre-wrap;
-}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#010302;color:#20ff72;font-family:Consolas,"Courier New",monospace}
+body{overflow-x:hidden;padding:14px}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:20;background:repeating-linear-gradient(0deg,rgba(32,255,114,.035) 0 1px,transparent 1px 4px);mix-blend-mode:screen}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:19;background:radial-gradient(circle at center,transparent 45%,rgba(0,0,0,.55) 100%)}
+#matrix,#particles{position:fixed;inset:0;overflow:hidden;pointer-events:none}
+#matrix{z-index:-5;opacity:.15}
+.rain{position:absolute;top:-120px;white-space:pre;line-height:1.05;animation:fall linear infinite;text-shadow:0 0 8px #20ff72}
+@keyframes fall{to{transform:translateY(125vh)}}
+#particles{z-index:-4}
+.p{position:absolute;width:2px;height:2px;background:#20ff72;box-shadow:0 0 8px #20ff72;animation:float linear infinite}
+@keyframes float{from{transform:translateY(110vh);opacity:0}20%{opacity:1}to{transform:translateY(-10vh);opacity:0}}
+.grid{position:fixed;inset:0;z-index:-3;pointer-events:none;background:linear-gradient(#20ff7210 1px,transparent 1px),linear-gradient(90deg,#20ff7210 1px,transparent 1px);background-size:45px 45px;transform:perspective(500px) rotateX(58deg) translateY(25%);transform-origin:center;opacity:.25}
+.wrap{width:min(1050px,96vw);margin:auto;border:1px solid #20ff72;background:rgba(1,4,2,.94);box-shadow:0 0 40px #20ff7230,inset 0 0 35px #20ff7208;position:relative}
+.top{padding:18px;border-bottom:1px solid #167a3d;text-align:center;position:relative;overflow:hidden}
+.top:after{content:"";position:absolute;left:-30%;top:0;width:25%;height:100%;background:linear-gradient(90deg,transparent,#20ff7255,transparent);animation:sweep 3.5s linear infinite}
+@keyframes sweep{to{left:120%}}
+.skull{font-size:64px;line-height:1;text-shadow:0 0 10px #20ff72,0 0 28px #20ff72;animation:glitch 2.7s infinite}
+@keyframes glitch{0%,86%,100%{transform:none;filter:none}88%{transform:translateX(-3px);filter:hue-rotate(40deg)}90%{transform:translateX(3px);filter:hue-rotate(-40deg)}92%{transform:none}}
+h1{margin:7px 0 0;font-size:clamp(25px,6vw,52px);letter-spacing:4px;text-shadow:0 0 15px #20ff72;animation:flicker 4s infinite}
+@keyframes flicker{0%,95%,100%{opacity:1}96%{opacity:.55}97%{opacity:1}98%{opacity:.7}}
+.sub{color:#9affb9;margin-top:7px}
+.badges{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.badge{border:1px solid #167a3d;padding:5px 9px;font-size:11px;animation:pulse 1.8s infinite}
+@keyframes pulse{50%{box-shadow:0 0 12px #20ff7240}}
+.content{padding:18px}
+.notice{border:1px solid #167a3d;padding:10px;margin-bottom:15px;color:#9affb9}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.full{grid-column:1/-1}
+label{display:block;margin-bottom:5px;font-weight:bold}
+input,textarea{width:100%;background:#000;color:#20ff72;border:1px solid #167a3d;padding:11px;font:inherit;outline:none}
+input:focus,textarea:focus{border-color:#20ff72;box-shadow:0 0 15px #20ff7240}
+textarea{min-height:80px;resize:vertical}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+button{padding:13px;background:#20ff72;color:#001b09;border:0;font:inherit;font-weight:bold;cursor:pointer}
+button:hover{box-shadow:0 0 20px #20ff72}
+button.secondary{background:#07170c;color:#20ff72;border:1px solid #20ff72}
+.terminal{margin-top:16px;border:1px solid #167a3d;background:#000;padding:15px;min-height:290px;white-space:pre-wrap;line-height:1.5;overflow:auto;position:relative}
+.terminal:before{content:"LIVE TERMINAL";position:absolute;right:10px;top:7px;font-size:10px;color:#167a3d;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.2}}
+.progress{height:8px;border:1px solid #167a3d;margin-top:12px;display:none}
+.bar{height:100%;width:0;background:#20ff72;box-shadow:0 0 15px #20ff72;transition:width .12s linear}
+.access{display:none;margin-top:14px;border:1px solid #20ff72;padding:15px;text-align:center;animation:access .7s infinite alternate}
+@keyframes access{from{box-shadow:0 0 5px #20ff72}to{box-shadow:0 0 25px #20ff72}}
+.access b{font-size:24px;text-shadow:0 0 12px #20ff72}
+@media(max-width:680px){.form{grid-template-columns:1fr}.full{grid-column:auto}.btns{grid-template-columns:1fr}}
 </style>
 </head>
-
 <body>
-
-<div class="matrix" id="matrix"></div>
-
-<div class="container">
-
-  <div class="skull">☠</div>
-
-  <h1>CYBER TERMINAL</h1>
-
-  <div class="subtitle">
-    SECURE ACCESS // ONLINE
-  </div>
-
-  <div class="panel">
-
-    <label for="text">
-      Ganti tulisan link:
-    </label>
-
-    <input
-      id="text"
-      type="text"
-      value="MASUK KE TERMINAL"
-      maxlength="60"
-    >
-
-    <button onclick="changeText()">
-      UBAH TULISAN
-    </button>
-
-    <br>
-
-    <!-- LINK MENUJU TERMINAL -->
-    <a
-      id="terminalLink"
-      class="cyberlink"
-      href="terminal.html"
-      target="_blank"
-    >
-      MASUK KE TERMINAL
-    </a>
-
-    <div class="hint">
-      Ketik tulisan yang kamu mau lalu tekan UBAH TULISAN.
-      Tombol akan membuka terminal di tab baru.
-    </div>
-
-  </div>
-
-  <div class="console">
-root@cyber:~$ system online
-root@cyber:~$ connection secure
-root@cyber:~$ ketik "help" di terminal
-  </div>
-
+<div id="matrix"></div><div id="particles"></div><div class="grid"></div>
+<div class="wrap">
+<div class="top">
+<div class="skull">☠</div>
+<h1>NEXUS CYBER ACCESS</h1>
+<div class="sub">ADVANCED SIMULATION // SYSTEM ONLINE</div>
+<div class="badges"><span class="badge">● ONLINE</span><span class="badge">ENCRYPTED</span><span class="badge">FIREWALL ACTIVE</span><span class="badge">LOCAL DEMO</span></div>
 </div>
-
+<div class="content">
+<div class="notice">SIMULASI VISUAL — data hanya diproses di browser ini dan tidak mengambil data dari jaringan nyata.</div>
+<div class="form">
+<div><label>Nama akun</label><input id="akun" placeholder="shadow_user"></div>
+<div><label>Nama</label><input id="nama" placeholder="Nama simulasi"></div>
+<div><label>NIK</label><input id="nik" placeholder="Gunakan NIK dummy"></div>
+<div><label>Tempat tanggal lahir</label><input id="ttl" placeholder="Jakarta, 01-01-2000"></div>
+<div class="full"><label>Alamat</label><input id="alamat" placeholder="Alamat simulasi"></div>
+<div><label>Posisi terkini</label><input id="posisi" placeholder="Jakarta"></div>
+<div><label>Pekerjaan</label><input id="pekerjaan" placeholder="Pelajar"></div>
+<div><label>No telepon</label><input id="telepon" placeholder="Nomor dummy"></div>
+<div class="full"><label>Data tambahan</label><textarea id="tambahan" placeholder="Data tambahan simulasi"></textarea></div>
+</div>
+<div class="btns"><button onclick="run()">▶ START ACCESS</button><button class="secondary" onclick="clearAll()">✕ RESET</button></div>
+<div class="progress" id="progress"><div class="bar" id="bar"></div></div>
+<div class="terminal" id="out">root@NEXUS:~$ system boot complete
+root@NEXUS:~$ awaiting simulation command...
+<span class="gray">root@NEXUS:~$ _</span></div>
+<div class="access" id="access"><b>☠ ACCESS GRANTED ☠</b><br><span>SIMULATION SUCCESSFUL</span></div>
+</div>
+</div>
 <script>
-
-function changeText() {
-
-  const input = document.getElementById("text");
-
-  const link = document.getElementById("terminalLink");
-
-  const value = input.value.trim();
-
-  if (value === "") {
-    link.textContent = "MASUK KE TERMINAL";
-  } else {
-    link.textContent = value;
-  }
-
+const out=document.getElementById("out"),progress=document.getElementById("progress"),bar=document.getElementById("bar"),access=document.getElementById("access");
+const ids=["akun","nama","nik","ttl","alamat","posisi","pekerjaan","telepon","tambahan"];
+const names=["NAMA AKUN","NAMA","NIK","TEMPAT/TANGGAL LAHIR","ALAMAT","POSISI TERKINI","PEKERJAAN","NO. TELEPON","DATA TAMBAHAN"];
+const esc=s=>s.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+function clearAll(){ids.forEach(id=>document.getElementById(id).value="");out.innerHTML="root@NEXUS:~$ reset complete\\nroot@NEXUS:~$ awaiting simulation command...";progress.style.display="none";bar.style.width="0";access.style.display="none"}
+function run(){
+ access.style.display="none";progress.style.display="block";bar.style.width="0";
+ const steps=["[BOOT] Initializing NEXUS core...","[NET ] Creating fictional secure channel...","[AUTH] Verifying simulation target...","[SYS ] Bypassing virtual firewall...","[KEY ] Generating visual access key...","[DATA] Processing user-entered fields...","[OK  ] Access granted — simulation only."];
+ out.textContent="";
+ let i=0,p=0;
+ const timer=setInterval(()=>{bar.style.width=(++p/100*100)+"%";if(p%12===0&&i<steps.length){out.textContent+=steps[i++]+"\\n"}if(p>=100){clearInterval(timer);showResult()}},35);
 }
-
-
-// MATRIX EFFECT
-
-const matrix = document.getElementById("matrix");
-
-const characters =
-  "01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&@";
-
-for (let i = 0; i < 50; i++) {
-
-  const span = document.createElement("span");
-
-  let text = "";
-
-  for (let j = 0; j < 20; j++) {
-
-    text +=
-      characters[
-        Math.floor(Math.random() * characters.length)
-      ] + "\n";
-
-  }
-
-  span.textContent = text;
-
-  span.style.left =
-    Math.random() * 100 + "%";
-
-  span.style.animationDuration =
-    (4 + Math.random() * 8) + "s";
-
-  span.style.animationDelay =
-    (-Math.random() * 8) + "s";
-
-  matrix.appendChild(span);
-
+function showResult(){
+ const rows=ids.map((id,i)=>names[i].padEnd(22)+" : "+(document.getElementById(id).value.trim()||"[KOSONG]")).join("\n");
+ out.innerHTML=esc("╔════════════════════════════════════════════════════════════╗\n║               DATA EXTRACTED // SIMULATION               ║\n╚════════════════════════════════════════════════════════════╝\n\n"+rows+"\n\n[+] Transfer complete\n[+] Encryption layer: ACTIVE\n[+] No real network request performed.\n\nroot@NEXUS:~$ _");
+access.style.display="block";
 }
-
+const chars="01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&@";
+const matrix=document.getElementById("matrix");
+for(let i=0;i<55;i++){const s=document.createElement("span");s.className="rain";s.textContent=Array.from({length:18},()=>chars[Math.floor(Math.random()*chars.length)]).join("\n");s.style.left=Math.random()*100+"%";s.style.animationDuration=(4+Math.random()*9)+"s";s.style.animationDelay=(-Math.random()*10)+"s";matrix.appendChild(s)}
+const particles=document.getElementById("particles");
+for(let i=0;i<70;i++){const p=document.createElement("i");p.className="p";p.style.left=Math.random()*100+"%";p.style.animationDuration=(5+Math.random()*8)+"s";p.style.animationDelay=(-Math.random()*8)+"s";particles.appendChild(p)}
 </script>
-
 </body>
 </html>
